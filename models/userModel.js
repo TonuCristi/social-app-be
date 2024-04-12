@@ -115,7 +115,10 @@ userSchema.statics.checkEmail = async function (id, email) {
 
   await this.findByIdAndUpdate(id, { email });
 
-  const user = await this.findById(id);
+  const user = await this.findById(
+    id,
+    "_id name email description avatar birth_date createdAt"
+  );
 
   return user;
 };

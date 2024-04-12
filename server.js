@@ -35,7 +35,6 @@ app.use(
       "Authorization",
       "Access-Control-Allow-Origin",
     ],
-    enablePreflight: true,
   })
 );
 

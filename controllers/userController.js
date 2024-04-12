@@ -59,17 +59,25 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, birth_date, avatar, description } = req.body;
-    const user = await User.findByIdAndUpdate(id, {
-      name,
-      birth_date,
-      avatar,
-      description,
-    });
+    const user = await User.findByIdAndUpdate(
+      id,
+      {
+        name: req.body.name,
+        birth_date: req.body.birth_date,
+        avatar: req.body.avatar,
+        description: req.body.description,
+      },
+      { new: true }
+    );
 
     if (!user) throw new Error("User not found!");
 
-    res.status(200).json(user);
+    const { _id, name, email, birth_date, avatar, description, createdAt } =
+      user;
+
+    res
+      .status(200)
+      .json({ _id, name, email, birth_date, avatar, description, createdAt });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
