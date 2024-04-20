@@ -55,8 +55,36 @@ export const getUser = async (req, res) => {
   }
 };
 
-// Update user
-export const updateUser = async (req, res) => {
+// Change user password
+export const changePassword = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { oldPassword, newPassword, newPasswordRepeat } = req.body;
+
+    await User.checkPassword(id, oldPassword, newPassword, newPasswordRepeat);
+
+    res.status(200).json({ message: "Password changed!" });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// Change user email
+export const changeEmail = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { email } = req.body;
+
+    const user = await User.checkEmail(id, email);
+
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// Change user name
+export const changeUsername = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -84,29 +112,88 @@ export const updateUser = async (req, res) => {
   }
 };
 
-// Change user password
-export const changePassword = async (req, res) => {
+// Change birth date
+export const changeBirthdate = async (req, res) => {
   try {
     const { id } = req.params;
-    const { oldPassword, newPassword, newPasswordRepeat } = req.body;
 
-    await User.checkPassword(id, oldPassword, newPassword, newPasswordRepeat);
+    const user = await User.findByIdAndUpdate(
+      id,
+      {
+        name: req.body.name,
+        birth_date: req.body.birth_date,
+        avatar: req.body.avatar,
+        description: req.body.description,
+      },
+      { new: true }
+    );
 
-    res.status(200).json({ message: "Password changed!" });
+    if (!user) throw new Error("User not found!");
+
+    const { _id, name, email, birth_date, avatar, description, createdAt } =
+      user;
+
+    res
+      .status(200)
+      .json({ _id, name, email, birth_date, avatar, description, createdAt });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
 
-// Change user email
-export const changeEmail = async (req, res) => {
+// Change user description
+export const changeDescription = async (req, res) => {
   try {
     const { id } = req.params;
-    const { email } = req.body;
 
-    const user = await User.checkEmail(id, email);
+    const user = await User.findByIdAndUpdate(
+      id,
+      {
+        name: req.body.name,
+        birth_date: req.body.birth_date,
+        avatar: req.body.avatar,
+        description: req.body.description,
+      },
+      { new: true }
+    );
 
-    res.status(200).json(user);
+    if (!user) throw new Error("User not found!");
+
+    const { _id, name, email, birth_date, avatar, description, createdAt } =
+      user;
+
+    res
+      .status(200)
+      .json({ _id, name, email, birth_date, avatar, description, createdAt });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// Change user avatar
+export const changeAvatar = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findByIdAndUpdate(
+      id,
+      {
+        name: req.body.name,
+        birth_date: req.body.birth_date,
+        avatar: req.body.avatar,
+        description: req.body.description,
+      },
+      { new: true }
+    );
+
+    if (!user) throw new Error("User not found!");
+
+    const { _id, name, email, birth_date, avatar, description, createdAt } =
+      user;
+
+    res
+      .status(200)
+      .json({ _id, name, email, birth_date, avatar, description, createdAt });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
