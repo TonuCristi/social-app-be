@@ -1,8 +1,5 @@
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
-import formidable from "formidable";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { fb } from "../firebase.js";
 
 // Create jwt token
 function createJWT(id) {
@@ -62,39 +59,26 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const form = formidable({});
-    const [fields, files] = await form.parse(req);
 
-    console.log(files["avatar[]"][0]);
+    const user = await User.findByIdAndUpdate(
+      id,
+      {
+        name: req.body.name,
+        birth_date: req.body.birth_date,
+        avatar: req.body.avatar,
+        description: req.body.description,
+      },
+      { new: true }
+    );
 
-    const imgType = files["avatar[]"][0].mimetype.split("/")[1];
+    if (!user) throw new Error("User not found!");
 
-    // const storageRef = ref(fb, `avatars/${id}.${imgType}`);
-    // uploadBytes(storageRef, files["avatar[]"][0], {
-    //   contentType: `image/${imgType}`,
-    // }).then((snapshot) => {
-    //   console.log("Uploaded a blob or file!");
-    // });
+    const { _id, name, email, birth_date, avatar, description, createdAt } =
+      user;
 
-    // const user = await User.findByIdAndUpdate(
-    //   id,
-    //   {
-    //     name: req.body.name,
-    //     birth_date: req.body.birth_date,
-    //     avatar: req.body.avatar,
-    //     description: req.body.description,
-    //   },
-    //   { new: true }
-    // );
-
-    // if (!user) throw new Error("User not found!");
-
-    // const { _id, name, email, birth_date, avatar, description, createdAt } =
-    //   user;
-
-    // res
-    //   .status(200)
-    //   .json({ _id, name, email, birth_date, avatar, description, createdAt });
+    res
+      .status(200)
+      .json({ _id, name, email, birth_date, avatar, description, createdAt });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
