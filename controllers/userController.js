@@ -77,7 +77,10 @@ export const changeEmail = async (req, res) => {
 
     const user = await User.checkEmail(id, email);
 
-    res.status(200).json(user);
+    res.status(200).json({
+      user,
+      message: "Email changed!",
+    });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -92,21 +95,19 @@ export const changeUsername = async (req, res) => {
       id,
       {
         name: req.body.name,
-        birth_date: req.body.birth_date,
-        avatar: req.body.avatar,
-        description: req.body.description,
       },
       { new: true }
     );
 
     if (!user) throw new Error("User not found!");
 
-    const { _id, name, email, birth_date, avatar, description, createdAt } =
+    const { _id, name, email, birth_date, description, avatar, createdAt } =
       user;
 
-    res
-      .status(200)
-      .json({ _id, name, email, birth_date, avatar, description, createdAt });
+    res.status(200).json({
+      user: { _id, name, email, birth_date, description, avatar, createdAt },
+      message: "Username changed!",
+    });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -120,22 +121,20 @@ export const changeBirthdate = async (req, res) => {
     const user = await User.findByIdAndUpdate(
       id,
       {
-        name: req.body.name,
         birth_date: req.body.birth_date,
-        avatar: req.body.avatar,
-        description: req.body.description,
       },
       { new: true }
     );
 
     if (!user) throw new Error("User not found!");
 
-    const { _id, name, email, birth_date, avatar, description, createdAt } =
+    const { _id, name, email, birth_date, description, avatar, createdAt } =
       user;
 
-    res
-      .status(200)
-      .json({ _id, name, email, birth_date, avatar, description, createdAt });
+    res.status(200).json({
+      user: { _id, name, email, birth_date, description, avatar, createdAt },
+      message: "Birth date changed!",
+    });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -149,9 +148,6 @@ export const changeDescription = async (req, res) => {
     const user = await User.findByIdAndUpdate(
       id,
       {
-        name: req.body.name,
-        birth_date: req.body.birth_date,
-        avatar: req.body.avatar,
         description: req.body.description,
       },
       { new: true }
@@ -159,12 +155,13 @@ export const changeDescription = async (req, res) => {
 
     if (!user) throw new Error("User not found!");
 
-    const { _id, name, email, birth_date, avatar, description, createdAt } =
+    const { _id, name, email, birth_date, description, avatar, createdAt } =
       user;
 
-    res
-      .status(200)
-      .json({ _id, name, email, birth_date, avatar, description, createdAt });
+    res.status(200).json({
+      user: { _id, name, email, birth_date, description, avatar, createdAt },
+      message: "Description changed!",
+    });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -178,22 +175,20 @@ export const changeAvatar = async (req, res) => {
     const user = await User.findByIdAndUpdate(
       id,
       {
-        name: req.body.name,
-        birth_date: req.body.birth_date,
         avatar: req.body.avatar,
-        description: req.body.description,
       },
       { new: true }
     );
 
     if (!user) throw new Error("User not found!");
 
-    const { _id, name, email, birth_date, avatar, description, createdAt } =
+    const { _id, name, email, birth_date, description, avatar, createdAt } =
       user;
 
-    res
-      .status(200)
-      .json({ _id, name, email, birth_date, avatar, description, createdAt });
+    res.status(200).json({
+      user: { _id, name, email, birth_date, description, avatar, createdAt },
+      message: "Avatar changed!",
+    });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
