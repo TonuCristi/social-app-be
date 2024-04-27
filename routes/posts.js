@@ -1,24 +1,23 @@
 import express from "express";
-import Post from "../models/postModel.js";
+import { authRequest } from "../middleware/authRequest.js";
+import {
+  createPost,
+  getPost,
+  getPosts,
+} from "../controllers/postController.js";
 
 const router = express.Router();
 
-// GET all posts
-router.get("/", (req, res) => {
-  res.json({ msg: "GET all posts!" });
-});
+// Auth check
+router.use(authRequest);
 
-// POST a new post
-router.post("/", async (req, res) => {
-  const { description, image, user_id } = req.body;
+// Create post
+router.post("/createPost", createPost);
 
-  try {
-    const post = await Post.create({ description, image, user_id });
+// Get a post
+router.get("/post/:id", getPost);
 
-    res.status(200).json(post);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+// Get all posts
+router.get("/:userId", getPosts);
 
 export default router;

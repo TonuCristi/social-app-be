@@ -42,8 +42,8 @@ app.use(
 app.use(express.json());
 
 // routes
-app.use("/posts/", postRouter);
 app.use("/users/", userRouter);
+app.use("/posts/", postRouter);
 
 // connect to db
 mongoose
