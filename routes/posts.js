@@ -18,6 +18,6 @@ router.post("/createPost", createPost);
 router.get("/post/:id", getPost);
 
 // Get all posts
-// router.get("/:userId", getPosts);
+router.get("/:userId", getPosts);
 
 export default router;
