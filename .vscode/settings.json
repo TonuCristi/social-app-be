@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "/subscriptions/403bbf71-48f6-4582-aa97-e40d1d9325c6/resourceGroups/bribe-app_group/providers/Microsoft.Web/sites/bribe-app",
+  "appService.deploySubpath": "."
+}
