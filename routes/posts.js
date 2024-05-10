@@ -5,7 +5,7 @@ import {
   deletePost,
   getPost,
   getPosts,
-  updatePostAvatar,
+  updatePostImage,
   updatePostDescription,
 } from "../controllers/postController.js";
 
@@ -29,7 +29,7 @@ router.delete("/post/deletePost/:id", deletePost);
 // Update post description
 router.put("/post/updateDescription/:id", updatePostDescription);
 
-// Update post avatar
-router.put("/post/updateAvatar/:id", updatePostAvatar);
+// Update post image
+router.put("/post/updateImage/:id", updatePostImage);
 
 export default router;

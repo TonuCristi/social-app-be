@@ -3,14 +3,13 @@ import Post from "../models/postModel.js";
 // Create post
 export const createPost = async (req, res) => {
   try {
-    const post = req.body;
+    const { description, image, ...rest } = req.body;
 
-    if (!post.description && !post.avatar)
-      throw new Error("Complete at least one field!");
+    if (!description) throw new Error("You should write a description!");
 
-    await Post.create(post);
+    const post = await Post.create({ description, image, ...rest });
 
-    res.status(200).json({ message: "Post added!" });
+    res.status(200).json(post);
   } catch (err) {
     console.log(err);
     res.status(400).json({ error: err.message });
@@ -42,7 +41,7 @@ export const getPosts = async (req, res) => {
 
     if (!posts) throw new Error("Posts not found!");
 
-    res.status(200).json(posts);
+    res.status(200).json(posts.reverse());
   } catch (err) {
     console.log(err);
     res.status(400).json({ error: err.message });
@@ -78,15 +77,15 @@ export const updatePostDescription = async (req, res) => {
   }
 };
 
-// Update post avatar
-export const updatePostAvatar = async (req, res) => {
+// Update post image
+export const updatePostImage = async (req, res) => {
   try {
     const { id } = req.params;
-    const post = req.body;
+    const { image } = req.body;
 
-    await Post.findByIdAndUpdate(id, { image: post.avatar });
+    const post = await Post.findByIdAndUpdate(id, { image });
 
-    res.status(200).json({ message: "Post avatar updated!" });
+    res.status(200).json(post);
   } catch (err) {
     console.log(err);
     res.status(400).json({ error: err.message });
