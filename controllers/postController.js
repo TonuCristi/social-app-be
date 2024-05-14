@@ -37,13 +37,20 @@ export const getPosts = async (req, res) => {
   try {
     const { userId } = req.params;
 
+    const { perPage, offset } = req.query;
+
     const posts = await Post.find({ user_id: userId });
 
     if (!posts) throw new Error("Posts not found!");
 
-    res.status(200).json(posts.reverse());
+    if (offset >= posts.length) return res.status(200).json([]);
+
+    console.log(`Offset: ${offset}`);
+
+    const result = posts.reverse().slice(+offset, +offset + +perPage);
+
+    res.status(200).json(result);
   } catch (err) {
-    console.log(err);
     res.status(400).json({ error: err.message });
   }
 };
