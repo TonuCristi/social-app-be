@@ -15,7 +15,7 @@ const router = express.Router();
 router.use(authRequest);
 
 // Create post
-router.post("/createPost", createPost);
+router.post("/post/createPost", createPost);
 
 // Get a post
 router.get("/post/:id", getPost);

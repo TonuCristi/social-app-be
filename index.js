@@ -6,19 +6,44 @@ import userRouter from "./routes/users.js";
 import mongoose from "mongoose";
 import cors from "cors";
 import { WebSocketServer } from "ws";
+import User from "./models/userModel.js";
 
 // express app
 const app = express();
 
-const wss = new WebSocketServer({ port: 5173 });
+const ws = new WebSocketServer({ port: 5173 });
 
-wss.on("connection", function (client) {
+ws.on("connection", function (client) {
   client.on("error", console.error);
 
-  client.on("message", function (msg) {
-    console.log(wss);
-    console.log(`received: ${msg}`);
-    wss.clients.forEach((client) => client.send(JSON.stringify(`${msg}`)));
+  client.on("message", async function (msg) {
+    const message = JSON.parse(msg);
+
+    const {
+      _id,
+      name,
+      email,
+      birth_date,
+      avatar,
+      description,
+      createdAt,
+      updatedAt,
+    } = await User.findById(message.to);
+
+    const user = {
+      _id,
+      name,
+      email,
+      birth_date,
+      avatar,
+      description,
+      createdAt,
+      updatedAt,
+    };
+
+    // console.log(user);
+
+    ws.clients.forEach((client) => client.send(JSON.stringify(user)));
   });
 });
 

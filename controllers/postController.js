@@ -45,8 +45,6 @@ export const getPosts = async (req, res) => {
 
     if (offset >= posts.length) return res.status(200).json([]);
 
-    console.log(`Offset: ${offset}`);
-
     const result = posts.reverse().slice(+offset, +offset + +perPage);
 
     res.status(200).json(result);
@@ -73,11 +71,14 @@ export const deletePost = async (req, res) => {
 export const updatePostDescription = async (req, res) => {
   try {
     const { id } = req.params;
-    const post = req.body;
 
-    await Post.findByIdAndUpdate(id, { description: post.description });
+    await Post.findByIdAndUpdate(id, {
+      description: req.body.description,
+    });
 
-    res.status(200).json({ message: "Post description updated!" });
+    const post = await Post.findById(id);
+
+    res.status(200).json(post);
   } catch (err) {
     console.log(err);
     res.status(400).json({ error: err.message });
