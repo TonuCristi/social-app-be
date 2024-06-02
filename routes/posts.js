@@ -7,6 +7,8 @@ import {
   getPosts,
   updatePostImage,
   updatePostDescription,
+  likePost,
+  getLikes,
 } from "../controllers/postController.js";
 
 const router = express.Router();
@@ -31,5 +33,11 @@ router.put("/post/updateDescription/:id", updatePostDescription);
 
 // Update post image
 router.put("/post/updateImage/:id", updatePostImage);
+
+// Like a post
+router.post("/post/like/:id", likePost);
+
+// Get post likes
+router.get("/post/likes/:id", getLikes);
 
 export default router;

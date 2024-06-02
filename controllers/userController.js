@@ -193,3 +193,27 @@ export const changeAvatar = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+// Search users
+export const searchUsers = async (req, res) => {
+  try {
+    // console.log(req.query);
+    const { s } = req.query;
+
+    if (!s) return res.status(200).json([]);
+
+    const users = await User.find({});
+
+    const result = users
+      .map((user) => {
+        const { _id, name, email, birth_date, avatar, description, createdAt } =
+          user;
+        return { _id, name, email, birth_date, avatar, description, createdAt };
+      })
+      .filter((user) => user.name.toLowerCase().includes(s.toLowerCase()));
+
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};

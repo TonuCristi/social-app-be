@@ -9,6 +9,7 @@ import {
   changeBirthdate,
   changeDescription,
   changeAvatar,
+  searchUsers,
 } from "../controllers/userController.js";
 import { authRequest } from "../middleware/authRequest.js";
 
@@ -43,5 +44,8 @@ router.put("/changeDescription/:id", changeDescription);
 
 // Change user avatar
 router.put("/changeAvatar/:id", changeAvatar);
+
+// Search users
+router.get("/searchUsers", searchUsers);
 
 export default router;

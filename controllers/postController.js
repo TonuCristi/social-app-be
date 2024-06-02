@@ -1,4 +1,5 @@
 import Post from "../models/postModel.js";
+import Like from "../models/likeModel.js";
 
 // Create post
 export const createPost = async (req, res) => {
@@ -97,5 +98,36 @@ export const updatePostImage = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(400).json({ error: err.message });
+  }
+};
+
+// Like post
+export const likePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { user_id } = req.body;
+
+    await Like.create({ user_id, post_id: id });
+
+    const likes = await Like.find({ post_id: id });
+
+    res.status(200).json(likes);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// Get post likes
+export const getLikes = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const likes = await Like.find({ post_id: id });
+
+    res.status(200).json(likes);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: "Cannot get likes!" });
   }
 };
