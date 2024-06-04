@@ -55,6 +55,24 @@ export const getUser = async (req, res) => {
   }
 };
 
+// Get user
+export const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findById(
+      id,
+      "_id name email birth_date avatar description createdAt"
+    );
+
+    if (!user) throw new Error("User not found!");
+
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
 // Change user password
 export const changePassword = async (req, res) => {
   try {

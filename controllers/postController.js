@@ -1,5 +1,6 @@
 import Post from "../models/postModel.js";
 import Like from "../models/likeModel.js";
+import User from "../models/userModel.js";
 
 // Create post
 export const createPost = async (req, res) => {
@@ -108,6 +109,23 @@ export const likePost = async (req, res) => {
     const { user_id } = req.body;
 
     await Like.create({ user_id, post_id: id });
+
+    const likes = await Like.find({ post_id: id });
+
+    res.status(200).json(likes);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// Unlike post
+export const unlikePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { like_id } = req.body;
+
+    await Like.findByIdAndDelete(like_id);
 
     const likes = await Like.find({ post_id: id });
 

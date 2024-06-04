@@ -9,6 +9,7 @@ import {
   updatePostDescription,
   likePost,
   getLikes,
+  unlikePost,
 } from "../controllers/postController.js";
 
 const router = express.Router();
@@ -36,6 +37,9 @@ router.put("/post/updateImage/:id", updatePostImage);
 
 // Like a post
 router.post("/post/like/:id", likePost);
+
+// Unlike a post
+router.post("/post/unlike/:id", unlikePost);
 
 // Get post likes
 router.get("/post/likes/:id", getLikes);

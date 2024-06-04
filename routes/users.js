@@ -10,6 +10,7 @@ import {
   changeDescription,
   changeAvatar,
   searchUsers,
+  getUserById,
 } from "../controllers/userController.js";
 import { authRequest } from "../middleware/authRequest.js";
 
@@ -26,6 +27,9 @@ router.use(authRequest);
 
 // Get user
 router.get("/", getUser);
+
+// Get user by id
+router.get("/:id", getUserById);
 
 // Change user password
 router.put("/changePassword/:id", changePassword);
