@@ -9,8 +9,8 @@ import {
   changeBirthdate,
   changeDescription,
   changeAvatar,
-  searchUsers,
   getUserById,
+  searchUsers,
 } from "../controllers/userController.js";
 import { authRequest } from "../middleware/authRequest.js";
 
@@ -27,6 +27,9 @@ router.use(authRequest);
 
 // Get user
 router.get("/", getUser);
+
+// Search users
+router.get("/searchUsers", searchUsers);
 
 // Get user by id
 router.get("/:id", getUserById);
@@ -48,8 +51,5 @@ router.put("/changeDescription/:id", changeDescription);
 
 // Change user avatar
 router.put("/changeAvatar/:id", changeAvatar);
-
-// Search users
-router.get("/searchUsers", searchUsers);
 
 export default router;

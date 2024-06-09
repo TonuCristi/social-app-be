@@ -215,7 +215,6 @@ export const changeAvatar = async (req, res) => {
 // Search users
 export const searchUsers = async (req, res) => {
   try {
-    // console.log(req.query);
     const { s } = req.query;
 
     if (!s) return res.status(200).json([]);

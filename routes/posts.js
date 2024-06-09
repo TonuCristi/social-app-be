@@ -10,6 +10,10 @@ import {
   likePost,
   getLikes,
   unlikePost,
+  addComment,
+  deleteComment,
+  editComment,
+  getComments,
 } from "../controllers/postController.js";
 
 const router = express.Router();
@@ -43,5 +47,17 @@ router.post("/post/unlike/:id", unlikePost);
 
 // Get post likes
 router.get("/post/likes/:id", getLikes);
+
+// Add comment to a post
+router.post("/post/comment/:id", addComment);
+
+// Delete a comment from a post
+router.post("/post/deleteComment/:id", deleteComment);
+
+// Edit a comment from a post
+router.put("/post/comments/:id", editComment);
+
+// Get post comments
+router.get("/post/comments/:id", getComments);
 
 export default router;

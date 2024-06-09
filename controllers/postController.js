@@ -1,6 +1,6 @@
 import Post from "../models/postModel.js";
 import Like from "../models/likeModel.js";
-import User from "../models/userModel.js";
+import Comment from "../models/commentModel.js";
 
 // Create post
 export const createPost = async (req, res) => {
@@ -13,7 +13,6 @@ export const createPost = async (req, res) => {
 
     res.status(200).json(post);
   } catch (err) {
-    console.log(err);
     res.status(400).json({ error: err.message });
   }
 };
@@ -29,7 +28,6 @@ export const getPost = async (req, res) => {
 
     res.status(200).json(post);
   } catch (err) {
-    console.log(err);
     res.status(400).json({ error: err.message });
   }
 };
@@ -82,7 +80,6 @@ export const updatePostDescription = async (req, res) => {
 
     res.status(200).json(post);
   } catch (err) {
-    console.log(err);
     res.status(400).json({ error: err.message });
   }
 };
@@ -97,7 +94,6 @@ export const updatePostImage = async (req, res) => {
 
     res.status(200).json(post);
   } catch (err) {
-    console.log(err);
     res.status(400).json({ error: err.message });
   }
 };
@@ -114,7 +110,6 @@ export const likePost = async (req, res) => {
 
     res.status(200).json(likes);
   } catch (err) {
-    console.log(err);
     res.status(400).json({ error: err.message });
   }
 };
@@ -131,7 +126,6 @@ export const unlikePost = async (req, res) => {
 
     res.status(200).json(likes);
   } catch (err) {
-    console.log(err);
     res.status(400).json({ error: err.message });
   }
 };
@@ -145,7 +139,69 @@ export const getLikes = async (req, res) => {
 
     res.status(200).json(likes);
   } catch (err) {
-    console.log(err);
     res.status(400).json({ error: "Cannot get likes!" });
+  }
+};
+
+// Add comment to a post
+export const addComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { content, user_id, comment_id } = req.body;
+
+    await Comment.create({
+      content,
+      user_id,
+      post_id: id,
+      comment_id: comment_id ? comment_id : null,
+    });
+
+    const comments = await Comment.find({ post_id: id });
+
+    res.status(200).json(comments);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+export const deleteComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { comment_id } = req.body;
+
+    await Comment.findByIdAndDelete(comment_id);
+
+    const comments = await Comment.find({ post_id: id });
+
+    res.status(200).json(comments);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+export const editComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { content } = req.body;
+
+    await Comment.findByIdAndUpdate(id, { content });
+
+    const comment = await Comment.findById(id);
+
+    res.status(200).json(comment);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+export const getComments = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const comments = await Comment.find({ post_id: id });
+
+    res.status(200).json(comments);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 };
