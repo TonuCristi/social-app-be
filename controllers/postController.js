@@ -147,10 +147,10 @@ export const getLikes = async (req, res) => {
 export const addComment = async (req, res) => {
   try {
     const { id } = req.params;
-    const { content, user_id, comment_id } = req.body;
+    const { comment, user_id, comment_id } = req.body;
 
     await Comment.create({
-      content,
+      comment,
       user_id,
       post_id: id,
       comment_id: comment_id ? comment_id : null,
@@ -182,13 +182,13 @@ export const deleteComment = async (req, res) => {
 export const editComment = async (req, res) => {
   try {
     const { id } = req.params;
-    const { content } = req.body;
+    const { comment } = req.body;
 
-    await Comment.findByIdAndUpdate(id, { content });
+    await Comment.findByIdAndUpdate(id, { comment });
 
-    const comment = await Comment.findById(id);
+    const result = await Comment.findById(id);
 
-    res.status(200).json(comment);
+    res.status(200).json(result);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
