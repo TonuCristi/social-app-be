@@ -52,10 +52,10 @@ router.get("/post/likes/:id", getLikes);
 router.post("/post/comment/:id", addComment);
 
 // Delete a comment from a post
-router.post("/post/deleteComment/:id", deleteComment);
+router.delete("/post/deleteComment/:id", deleteComment);
 
 // Edit a comment from a post
-router.put("/post/comments/:id", editComment);
+router.put("/post/editComment/:id", editComment);
 
 // Get post comments
 router.get("/post/comments/:id", getComments);

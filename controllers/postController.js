@@ -149,16 +149,14 @@ export const addComment = async (req, res) => {
     const { id } = req.params;
     const { comment, user_id, comment_id } = req.body;
 
-    await Comment.create({
+    const result = await Comment.create({
       comment,
       user_id,
       post_id: id,
       comment_id: comment_id ? comment_id : null,
     });
 
-    const comments = await Comment.find({ post_id: id });
-
-    res.status(200).json(comments);
+    res.status(200).json(result);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -167,13 +165,10 @@ export const addComment = async (req, res) => {
 export const deleteComment = async (req, res) => {
   try {
     const { id } = req.params;
-    const { comment_id } = req.body;
 
-    await Comment.findByIdAndDelete(comment_id);
+    await Comment.findByIdAndDelete(id);
 
-    const comments = await Comment.find({ post_id: id });
-
-    res.status(200).json(comments);
+    res.status(200).json({ message: "Comment deleted!" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
